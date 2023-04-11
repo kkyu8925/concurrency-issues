@@ -6,7 +6,7 @@ spring:
       ddl-auto: create
     show-sql: true
   datasource:
-    url: jdbc:mysql://127.0.0.1:3307/stock
+    url: jdbc:mysql://localhost:3306/stock?useSSL=false&allowPublicKeyRetrieval=true
     username: root
     password: 1234
     hikari:
