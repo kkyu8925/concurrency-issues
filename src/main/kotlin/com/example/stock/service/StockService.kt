@@ -1,8 +1,9 @@
 package com.example.stock.service
 
 import com.example.stock.repository.StockRepository
-import jakarta.transaction.Transactional
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Propagation
+import org.springframework.transaction.annotation.Transactional
 
 @Service
 class StockService(
@@ -10,6 +11,13 @@ class StockService(
 ) {
     @Transactional
     fun decrease(id: Long, quantity: Long) {
+        val stock = stockRepository.findById(id).orElseThrow()
+        stock.decrease(quantity)
+        stockRepository.saveAndFlush(stock)
+    }
+
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    fun decreaseWithPropagationRequiresNew(id: Long, quantity: Long) {
         val stock = stockRepository.findById(id).orElseThrow()
         stock.decrease(quantity)
         stockRepository.saveAndFlush(stock)
